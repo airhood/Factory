@@ -21,9 +21,9 @@ result = map.set_tile(1, 1, '1')
 
 print({'result':result})
 
-buttons = []
+ui_elements = []
 
-buttons.append(Button(window, 100, 200, spritesheet.parse_sprite('grass.png'), 80, 80))
+ui_elements.append(Button(window, 100, 200, spritesheet.parse_sprite('grass.png'), 80, 80, lambda: print("hi")))
 
 while running:
     dt = clock.tick(60) * .001 * TARGET_FPS
@@ -63,6 +63,6 @@ while running:
     map.draw_map(canvas)
     player.draw(canvas)
     window.blit(canvas, (0,0))
-    for button in buttons:
-        button.draw()
+    for ui_element in ui_elements:
+        ui_element.draw()
     pygame.display.update()
