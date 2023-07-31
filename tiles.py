@@ -28,8 +28,8 @@ class TileMap():
         self.load_tiles(filename)
         #self.load_map()
 
-    def draw_map(self, surface):
-        surface.blit(self.map_surface, (0 + self.player.camera_position.x, 0 + self.player.camera_position.y))
+    def draw(self, surface, parent_pos):
+        surface.blit(self.map_surface, (parent_pos[0], parent_pos[1]))
 
     def load_map(self):
         for row in self.tiles:
