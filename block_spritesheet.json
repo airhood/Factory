@@ -1,0 +1,26 @@
+[
+{
+	"name": "conveyor belt",
+	"description": "",
+	"image": {"x":0,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "wall",
+	"description": "",
+	"image": {"x":16,"y":0,"w":16,"h":16},
+	"rotated": false
+},
+{
+	"name": "input",
+	"description": "",
+	"image": {"x":32,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "output",
+	"description": "",
+	"image": {"x":48,"y":0,"w":16,"h":16},
+	"rotated": true
+}
+]

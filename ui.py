@@ -3,20 +3,29 @@ import copy
 
 class Button():
     def __init__(self, x, y, image, width, height, callback):
-        self.image = pygame.transform.scale(image, (width, height))
+        if width is not None and height is not None:
+            self.image = pygame.transform.scale(image, (width, height))
+        elif width is not None and height is None:
+            self.image = pygame.transform.scale(image, (width, image.get_rect().height))
+        elif width is None and height is not None:
+            self.image = pygame.transform.scale(image, (image.get_rect().width, height))
+        else:
+            self.image = image
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        self.world_rect = None
         self.clicked = False
         self.callback = callback
     
     def draw(self, surface, parent_pos):
         pos = pygame.mouse.get_pos()
-        world_rect = copy.deepcopy(self.rect)
-        world_rect.topleft = (self.rect.topleft[0] + parent_pos[0], self.rect.topleft[1] + parent_pos[1])
-        if world_rect.collidepoint(pos):
+        self.world_rect = copy.deepcopy(self.rect)
+        self.world_rect.topleft = (self.rect.topleft[0] + parent_pos[0], self.rect.topleft[1] + parent_pos[1])
+        if self.world_rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
-                self.callback()
+                if self.callback is not None:
+                    self.callback()
             elif pygame.mouse.get_pressed()[0] == 0:
                 self.clicked = False
         
@@ -27,12 +36,15 @@ class Panel():
         self.image = pygame.transform.scale(image, (width, height))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        self.world_rect = None
         if childs is not None:
             self.childs = childs
         else:
             self.childs = []
     
     def draw(self, surface, parent_pos):
+        self.world_rect = copy.deepcopy(self.rect)
+        self.world_rect.topleft = (self.rect.topleft[0] + parent_pos[0], self.rect.topleft[1] + parent_pos[1])
         surface.blit(self.image, (self.rect.x + parent_pos[0], self.rect.y + parent_pos[1]))
         
         for child in self.childs:

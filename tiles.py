@@ -2,36 +2,35 @@ import pygame, csv, os
 from config import *
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, image, x, y, spritesheet):
+    def __init__(self, id, x, y, rotation, block_spritesheet):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(spritesheet.parse_sprite(image), (32, 32))
-        self.x = x
-        self.y = y
-        # Manual load in: self.image = pygame.image.load(image)
+        self.image = pygame.transform.scale(block_spritesheet.parse_sprite(id - 1), (TILE_SIZE, TILE_SIZE))
+        self.rotation = rotation
+        self.image = pygame.transform.rotate(self.image, 360 - self.rotation)
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x, y
+        self.id = id
 
     def draw(self, surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
 class TileMap():
-    def __init__(self, filename, spritesheet, player):
+    def __init__(self, block_spritesheet, player):
         self.tile_size = TILE_SIZE
-        self.start_x, self.start_y = 0, 0
-        self.spritesheet = spritesheet
+        self.block_spritesheet = block_spritesheet
         self.player = player
-        self.map_w, self.map_h = None, None
-        self.tiles = [[None for j in range(100)] for i in range(100)]
-        self.set_map_size(filename)
-        self.map_surface = pygame.Surface((self.map_w, self.map_h))
+        self.tiles = [[None for j in range(TILEMAP_SIZE)] for i in range(TILEMAP_SIZE)]
+        self.map_surface = pygame.Surface((TILEMAP_SIZE * TILE_SIZE, TILEMAP_SIZE * TILE_SIZE))
         self.map_surface.set_colorkey((0, 0, 0))
-        self.load_tiles(filename)
-        #self.load_map()
+        self.isLoading = True
+        self.load_map()
+        self.isLoading = False
 
-    def draw(self, surface, parent_pos):
-        surface.blit(self.map_surface, (parent_pos[0], parent_pos[1]))
+    def draw(self, surface):
+        surface.blit(self.map_surface, (0, 0))
 
     def load_map(self):
+        self.map_surface = pygame.Surface((TILEMAP_SIZE * TILE_SIZE, TILEMAP_SIZE * TILE_SIZE))
         for row in self.tiles:
             for tile in row:
                 if (tile is not None):
@@ -46,25 +45,29 @@ class TileMap():
         return map
     
     def set_tile(self, x, y, id):
-        if (self.map_w is not None):
-            if (x > self.map_w): return None
-            elif (y > self.map_h): return None
-        print({'x': x, 'y': y})
+        if (x > TILEMAP_SIZE): return None
+        elif (y > TILEMAP_SIZE): return None
 
-        if id == '-1':
-            self.tiles[x][y] = None
         if id == '0':
-            self.start_x, self.start_y = x * self.tile_size, y * self.tile_size
-        elif id == '1':
-            self.tiles[x][y] = (Tile('grass.png', x * self.tile_size, y * self.tile_size, self.spritesheet))
-        elif id == '2':
-            self.tiles[x][y] = (Tile('grass2.png', x * self.tile_size, y * self.tile_size, self.spritesheet))
-
-        if (self.tiles[x][y] is not None):
-            self.tiles[x][y].draw(self.map_surface)
+            self.tiles[x][y] = None
+        elif id == '1-0':
+            self.tiles[x][y] = (Tile(1, x * self.tile_size, y * self.tile_size, 0, self.block_spritesheet))
+        elif id == '1-1':
+            self.tiles[x][y] = (Tile(1, x * self.tile_size, y * self.tile_size, 90, self.block_spritesheet))
+        elif id == '1-2':
+            self.tiles[x][y] = (Tile(1, x * self.tile_size, y * self.tile_size, 180, self.block_spritesheet))
+        elif id == '1-3':
+            self.tiles[x][y] = (Tile(1, x * self.tile_size, y * self.tile_size, 270, self.block_spritesheet))
+        else:
+            self.tiles[x][y] = (Tile(int(id), x * self.tile_size, y * self.tile_size, 0, self.block_spritesheet))
+        
+        if not self.isLoading:
+            self.load_map()
+        
         return True
 
     def load_tiles(self, filename):
+        print("loading tiles")
         map = self.read_csv(filename)
         x, y = 0, 0
         # x: column, y: row
@@ -85,13 +88,3 @@ class TileMap():
                 x += 1
             y += 1
         self.map_w, self.map_h = x * self.tile_size, y * self.tile_size
-
-
-
-
-
-
-
-
-
-
