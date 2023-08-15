@@ -1,0 +1,203 @@
+import pygame
+from Tiles import TileMap
+from Spritesheet import Spritesheet
+from Player import Player
+from UI import Button
+from UI import Panel
+from UI import Text
+from Conveyor import ItemEntity
+from config import *
+from LevelManager import LevelManager
+from Chip import Chip
+
+class SceneManager():
+    def __init__(self, window, clock):
+        self.running = True
+        self.window = window
+        self.clock = clock
+        self.current_scene = None
+        self.scenes = [TitleScene(window, self.load_scene), GameScene(window, self.load_scene)]
+
+    def load_scene(self, scene_id):
+        if self.current_scene is not None:
+            self.scenes[self.current_scene].stop()
+        self.current_scene = scene_id
+        self.scenes[self.current_scene].start()
+    
+    def run(self):
+        while self.running:
+            # delta tile 계산
+            dt = self.clock.tick(60) * .001 * TARGET_FPS
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.running = False
+            self.scenes[self.current_scene].run(dt, events)
+            pygame.display.update()
+
+class TitleScene():
+    def __init__(self, window, load_scene):
+        self.window = window
+        self.load_scene = load_scene
+
+        # font
+        self.I_AM_A_PLAYER_100 = pygame.font.Font("Fonts/I AM A PLAYER.ttf", 100)
+        self.I_AM_A_PLAYER_35 = pygame.font.Font("Fonts/I AM A PLAYER.ttf", 35)
+        self.title_text = self.I_AM_A_PLAYER_100.render(TITLE, True, (88, 114, 227))
+        self.TitleScreen_background = pygame.image.load('Images/TitleScreen_background.png')
+
+        # 이미지 로드
+        self.button_image = pygame.image.load('Images/button.png').convert_alpha()
+        
+        # UI
+        self.game_start_button = Button(870, 535, self.button_image, self.button_image.get_rect().width * 0.15, self.button_image.get_rect().height * 0.15, lambda:load_scene(1), [Text(70, 13, "START", self.I_AM_A_PLAYER_35, (255, 255, 255), 400, 250, None)])
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+    
+    def run(self, dt, events):
+        self.window.blit(get_colored_surf([DISPLAY_W, DISPLAY_H], (208, 252, 92)), (0, 0))
+        self.window.blit(self.TitleScreen_background, [0, 0])
+        self.game_start_button.draw(self.window, (0, 0))
+        self.window.blit(self.title_text, [90, 100])
+
+class GameScene():
+    def __init__(self, window, load_scene):
+        self.window = window
+        self.load_scene = load_scene
+
+        self.background = pygame.Surface((10000, 10000))
+        self.canvas = pygame.Surface((DISPLAY_W,DISPLAY_H))
+        self.canvas.set_colorkey((0, 0, 0))
+
+        # 배경
+        self.grid = pygame.image.load("Images/Background Grid.png").convert_alpha()
+        self.grid = pygame.transform.scale(self.grid, (2400 * 1.5, 1376 * 1.5))
+
+        # fonts
+        self.KCC_Ganpan_15 = pygame.font.Font("Fonts/KCC-Ganpan.ttf", 15)
+        self.KCC_Ganpan_20 = pygame.font.Font("Fonts/KCC-Ganpan.ttf", 20)
+        self.Consolas = pygame.font.SysFont("Consolas", 14)
+
+        # 이미지 로드
+        self.number_icon = pygame.image.load('Images/number_icon.png').convert_alpha()
+        self.number_icon.set_colorkey((0, 0, 0))
+        self.block_spritesheet = Spritesheet('Images/block_spritesheet')
+        self.block_delete_ui = pygame.image.load('Images/block_delete_ui.png')
+
+        # 월드
+        self.world = pygame.Surface((10000, 10000))
+        self.world.set_colorkey((0, 0, 0))
+        
+        # UI
+        self.ui_elements = []
+
+        self.ui_elements.append(Panel(0, 630, get_colored_surf([1, 1], (130, 130, 130)), 1200, 70, [Button(15, 15, self.block_spritesheet.parse_sprite(1-1), 40, 40, lambda: self.set_player_holding_block(1), None)]))
+        self.ui_elements.append(Panel(0, 0, get_colored_surf([1, 1], (170, 170, 170)), 1200, 40, [Button(1095, 5, get_colored_surf([1, 1], (60, 179, 113)), 100, 30, lambda:print("play"), [Text(20, 0, "START", self.KCC_Ganpan_20, (255, 255, 255), 100, 30, None)])]))
+
+        # Player
+        self.player = Player(self.block_spritesheet, self.ui_elements[0])
+
+        # Tilemap 생성
+        self.tilemap = TileMap(self.block_spritesheet, self.player)
+
+        self.player.tilemap = self.tilemap
+
+        # Chip
+        self.chips = []
+        self.chips.append(Chip("add"))
+        self.chips[0].set_script('return-D a+1')
+
+        self.items = []
+        self.items.append(ItemEntity(1, 2, 1, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.chips))
+
+        self.t = 0
+
+        # Sound
+        self.bgm = pygame.mixer.Sound('Sounds/＂Fun Puzzle Quest!＂ Calm Puzzle Game Music by HeatleyBros.wav')
+
+        self.level_manager = LevelManager(self)
+        self.level_manager.load_level("test_level")
+    
+    def start(self):
+        self.bgm.play(-1)
+    
+    def stop(self):
+        self.bgm.stop()
+    
+    def tick(self): # 게임 시스템 Tick
+        for item in self.items:
+            item.tick()
+    
+    def set_player_holding_block(self, id): # 플레이어가 선택한 블럭 id 저장
+        self.player.holding_block = id
+        # 블럭 설치 미리보기 이미지 업데이트
+        self.player.block_set_image = pygame.transform.scale(self.block_spritesheet.parse_sprite(id - 1), (TILE_SIZE, TILE_SIZE))
+        self.player.block_set_image.set_alpha(100)
+    
+    def run(self, dt, events):
+        # key input
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    self.player.LEFT_KEY = True
+                elif event.key == pygame.K_d:
+                    self.player.RIGHT_KEY = True
+                elif event.key == pygame.K_w:
+                    self.player.UP_KEY = True
+                elif event.key == pygame.K_s:
+                    self.player.DOWN_KEY = True
+                elif event.key == pygame.K_r:
+                    if self.player.holding_block is not None:
+                        if self.block_spritesheet.get_rotated(self.player.holding_block - 1) and self.player.holding_block != 0:
+                            self.player.block_set_rotation = self.player.block_set_rotation + 1
+                            if self.player.block_set_rotation > 3:
+                                self.player.block_set_rotation = self.player.block_set_rotation - 4
+                            self.player.block_set_image = pygame.transform.rotate(pygame.transform.scale(self.block_spritesheet.parse_sprite(self.player.holding_block - 1), (TILE_SIZE, TILE_SIZE)), 360 - self.player.block_set_rotation * 90)
+                            self.player.block_set_image.set_alpha(100)
+                elif event.key == pygame.K_x:
+                    self.player.block_set_rotation = 0
+                    self.player.holding_block = 0
+                    self.player.block_set_image = pygame.transform.scale(self.block_delete_ui, (TILE_SIZE, TILE_SIZE))
+                elif event.key == pygame.K_1:
+                    self.set_player_holding_block(1)
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_a:
+                    self.player.LEFT_KEY = False
+                elif event.key == pygame.K_d:
+                    self.player.RIGHT_KEY = False
+                elif event.key == pygame.K_w:
+                    self.player.UP_KEY = False
+                elif event.key == pygame.K_s:
+                    self.player.DOWN_KEY = False
+    
+        # draw
+        self.background.fill((226, 226, 226))
+        self.window.blit(self.background, (-5000, -5000))
+        self.window.blit(self.grid, (self.player.camera_position.x, self.player.camera_position.y))
+        self.window.blit(self.grid, (self.player.camera_position.x, -self.grid.get_size()[1] + self.player.camera_position.y))
+        self.window.blit(self.grid, (-self.grid.get_size()[0] + self.player.camera_position.x, -self.grid.get_size()[1] + self.player.camera_position.y))
+        self.window.blit(self.grid, (-self.grid.get_size()[0] + self.player.camera_position.x, self.player.camera_position.y))
+        self.tilemap.draw(self.world)
+        for item in self.items:
+            item.draw(self.world)
+        self.window.blit(self.canvas, (0,0))
+        self.window.blit(self.world, (0 + self.player.camera_position.x, 0 + self.player.camera_position.y))
+        self.player.update(dt, self.window)
+        self.t = self.t + 1
+        if self.t == 2:
+            self.t = 0
+            self.tick()
+        for ui_element in self.ui_elements:
+            ui_element.draw(self.window, (0, 0))
+
+def get_colored_surf(size, color):
+    surf = pygame.Surface(size)
+    surf.fill(color)
+    return surf
+
+def get_blit_surf(surf, source, position):
+    surf.blit(source, position)

@@ -1,0 +1,15 @@
+{
+"theme1":
+{
+    "name": "Tutorial",
+    "difficulty": "쉬움",
+    "levels": [
+        {
+            "levelName": "컨베이어 벨트",
+            "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+            "difficulty": 0,
+            "map_file": "1.csv"
+        }
+    ]
+}
+}

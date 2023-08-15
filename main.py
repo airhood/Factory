@@ -1,12 +1,12 @@
 import pygame
 from config import *
-from scene import SceneManager
+from Scene import SceneManager
 
 # 초기화
 pygame.init()
-window = pygame.display.set_mode(((DISPLAY_W,DISPLAY_H)))
+window = pygame.display.set_mode((DISPLAY_W,DISPLAY_H))
 pygame.display.set_caption(TITLE)
-icon = pygame.image.load("Cubic.png")
+icon = pygame.image.load("Images/Cubic.png")
 pygame.display.set_icon(icon)
 
 clock = pygame.time.Clock()

@@ -1,5 +1,5 @@
 
-script = 'print(f)\nprint("wow")'
+script = 'def say(text):\n  print(text)\nsay("abc")\nprint("wow")'
 
 def func(s):
     exec("f = 2")
