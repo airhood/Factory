@@ -12,5 +12,6 @@ pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
 scene_manager = SceneManager(window, clock)
+scene_manager.init()
 scene_manager.load_scene(0)
 scene_manager.run()

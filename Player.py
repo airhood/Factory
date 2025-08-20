@@ -5,7 +5,7 @@ import math
 from Tiles import Tile
 
 class Player():
-    def __init__(self, scene, block_spritesheet, block_select_bar):
+    def __init__(self, scene, block_spritesheet, block_select_bar, chip_list):
         pygame.sprite.Sprite.__init__(self)
         self.LEFT_KEY, self.RIGHT_KEY, self.UP_KEY, self.DOWN_KEY, self.FACING_LEFT = False, False, False, False, False
         self.is_jumping, self.on_ground = False, False
@@ -20,6 +20,9 @@ class Player():
         self.scene = scene
         self.block_spritesheet = block_spritesheet
         self.block_select_bar = block_select_bar
+        self.chip_list = chip_list
+
+        self.mouse_press = 0
 
     def update(self, dt, surface): # 1프레임마다 실행
         self.check_input(surface)
@@ -58,14 +61,26 @@ class Player():
         tilemap_pos = (math.floor(calculated_pos[0] / TILE_SIZE), math.floor(calculated_pos[1] / TILE_SIZE))
         if self.block_set_image is not None:
             self.draw_block_set_image(surface, tilemap_pos)
-        if pygame.mouse.get_pressed()[0] == 1 and self.holding_block != None and not self.scene.conveyor_run:
+
+        if pygame.mouse.get_pressed()[0] == 1:
+            if self.mouse_press == 0:
+                self.mouse_press = 1
+            elif self.mouse_press == 1:
+                self.mouse_press == 2
+        else:
+            self.mouse_press = 0
+        
+        if self.mouse_press == 1 and self.holding_block != None and not self.scene.conveyor_run:
             if self.block_select_bar.world_rect.collidepoint(pos) == False:
-                if self.tilemap.tiles[tilemap_pos[0]][tilemap_pos[1]] is None and self.holding_block != 0:
+                if self.tilemap.tiles[tilemap_pos[0]][tilemap_pos[1]] is None and self.holding_block > 0:
                     if self.block_spritesheet.get_rotated(int(self.holding_block) - 1):
                         block_id = str(self.holding_block) + "-" + str(self.block_set_rotation)
                     else:
                         block_id = str(self.holding_block)
                     self.tilemap.set_tile(tilemap_pos[0], tilemap_pos[1], block_id)
+                elif self.holding_block < 0: # chip
+                    chip_id = -self.holding_block - 1
+                    self.tilemap.set_chip(tilemap_pos[0], tilemap_pos[1], chip_id, self.block_set_rotation)
                 elif self.holding_block == 0: # delete block
                     self.tilemap.set_tile(tilemap_pos[0], tilemap_pos[1], "0")
     

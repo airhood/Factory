@@ -1,5 +1,7 @@
 import pygame, csv, os
 from config import *
+from Chip import Chip
+import copy
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, id, x, y, rotation, block_spritesheet):
@@ -16,7 +18,7 @@ class Tile(pygame.sprite.Sprite):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
 class TileMap():
-    def __init__(self, block_spritesheet, player):
+    def __init__(self, block_spritesheet, player, chip_list, chip_instances):
         self.tile_size = TILE_SIZE
         self.block_spritesheet = block_spritesheet
         self.player = player
@@ -24,6 +26,8 @@ class TileMap():
         self.map_surface = pygame.Surface((TILEMAP_SIZE * TILE_SIZE, TILEMAP_SIZE * TILE_SIZE))
         self.map_surface.set_colorkey((0, 0, 0))
         self.isLoading = False
+        self.chip_list = chip_list
+        self.chip_instances = chip_instances
 
     def draw(self, surface):
         surface.blit(self.map_surface, (0, 0))
@@ -43,9 +47,23 @@ class TileMap():
                 map.append(list(row))
         return map
     
-    def set_tile(self, x, y, id):
-        if (x > TILEMAP_SIZE): return None
-        elif (y > TILEMAP_SIZE): return None
+    def set_tile(self, x, y, id, chip=None, isChip=False):
+        if (x > TILEMAP_SIZE): return True
+        elif (y > TILEMAP_SIZE): return True
+
+        if isChip:
+            if id.find('-') != -1:
+                split = id.split('-')
+                self.tiles[x][y] = (Tile(5, x * self.tile_size, y * self.tile_size, int(split[1]) * 90, self.block_spritesheet))
+                self.tiles[x][y].chip = chip # chip
+            else:
+                self.tiles[x][y] = (Tile(5, x * self.tile_size, y * self.tile_size, 0, self.block_spritesheet))
+                self.tiles[x][y].chip = chip # chip
+
+            if not self.isLoading:
+                self.render_map()
+
+            return True
 
         if id == '0':
             self.tiles[x][y] = None
@@ -59,6 +77,17 @@ class TileMap():
             self.render_map()
         
         return True
+    
+    def set_chip(self, x, y, chip_id, rotation):
+        if chip_id < len(self.chip_list):
+            chip = copy.deepcopy(self.chip_list[chip_id])
+            chip.x = x
+            chip.y = y
+            chip.activate = True
+            self.chip_instances.append(chip)
+            result = self.set_tile(x, y, '5-'+str(rotation), chip=chip, isChip=True)
+            return result
+        return False
 
     def load_map(self, filename):
         self.isLoading = True

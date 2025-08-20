@@ -26,7 +26,7 @@
 {
 	"name": "chip",
 	"description": "",
-	"image": {"x":48,"y":0,"w":16,"h":16},
+	"image": {"x":64,"y":0,"w":16,"h":16},
 	"rotated": true
 }
 ]

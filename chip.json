@@ -1,30 +1,97 @@
 [
 {
     "name": "add",
-    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) != 0:\n  result = 0\n  for num in nums:\n    result += num\n  return-D result"
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = 0\n  for num in nums:\n    result += num\n  return-D result",
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
 },
 {
     "name": "subtract",
-    "script": "if b != None:\n  nums = []\n  if a != None: nums.append(b)\n  if c != None: nums.append(c)\n  if len(nums) != 0:\n    result = b\n    for num in nums: result -= num\n    return-D result"
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = nums[0]\n  for i in range(1, len(nums)):\n    result -= nums[i]\n  return-D result",
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
 },
 {
     "name": "multiply",
-    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif len(nums) != 0:\n  result = 1\n  for num in nums: result *= num\n  return-D result"
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = 1\n  for num in nums:\n    result *= num\n  return-D result",
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
 },
 {
     "name": "divide",
-    "script": ""
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = nums[0]\n  for i in range(1, len(nums)):\n    if nums[i] == 0:\n      break\n    result /= nums[i]\n  else:\n    return-D result",
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
+},
+{
+    "name": "constant",
+    "script": "return-A 1\nreturn-B 10\nreturn-C 100\nreturn-D 0",
+    "checker": "return True"
+},
+{
+    "name": "duplicate",
+    "script": "if a != None:\n  return-A a\n  return-B a\n  return-C a\n  return-D a",
+    "checker": "return a != None"
+},
+{
+    "name": "pass_through",
+    "script": "if a != None: return-A a\nif b != None: return-B b\nif c != None: return-C c\nif d != None: return-D d",
+    "checker": "return a != None or b != None or c != None or d != None"
+},
+{
+    "name": "swap_ab",
+    "script": "if a != None: return-B a\nif b != None: return-A b\nif c != None: return-C c\nif d != None: return-D d",
+    "checker": "return a != None or b != None or c != None or d != None"
 },
 {
     "name": "minus",
-    "script": "if b != None: return-D -b"
+    "script": "if a != None: return-A -a\nif b != None: return-B -b\nif c != None: return-C -c\nif d != None: return-D -d",
+    "checker": "return a != None or b != None or c != None or d != None"
 },
 {
-    "name": "left shift",
-    "script": "if b != None and c != None: return-D b << c"
+    "name": "absolute",
+    "script": "if a != None: return-A abs(a)\nif b != None: return-B abs(b)\nif c != None: return-C abs(c)\nif d != None: return-D abs(d)",
+    "checker": "return a != None or b != None or c != None or d != None"
 },
 {
-    "name": "right shift",
-    "script": "if b != None and a != None: return-D b << a"
+    "name": "compare_equal",
+    "script": "if a != None and b != None:\n  result = 1 if a == b else 0\n  return-D result",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "compare_greater",
+    "script": "if a != None and b != None:\n  result = 1 if a > b else 0\n  return-D result",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "compare_less",
+    "script": "if a != None and b != None:\n  result = 1 if a < b else 0\n  return-D result",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "left_shift",
+    "script": "if a != None and b != None: return-D a << b",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "right_shift",
+    "script": "if a != None and b != None: return-D a >> b",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "and_gate",
+    "script": "if a != None and b != None: return-D a & b",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "or_gate",
+    "script": "if a != None and b != None: return-D a | b",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "xor_gate",
+    "script": "if a != None and b != None: return-D a ^ b",
+    "checker": "return a != None and b != None"
+},
+{
+    "name": "not_gate",
+    "script": "if a != None: return-A ~a\nif b != None: return-B ~b\nif c != None: return-C ~c\nif d != None: return-D ~d",
+    "checker": "return a != None or b != None or c != None or d != None"
 }
 ]
