@@ -13,11 +13,13 @@ class ItemEntity(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x * TILE_SIZE + 8, y * TILE_SIZE + 8
         self.tilemap = tilemap
+        self.initial_grid_pos = (x, y)
         self.current_grid_pos = (x, y)
         self.target_grid_pos = None
         self.calculate_target_pos() # 초기 이동 목표 좌표 설정
         self.font = font
         self.chips = chips
+        self.remove_this = False
     
     def calculate_target_pos(self): # 다음 아이템 이동 목표 좌표 계산
         if self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]] is None:
@@ -34,21 +36,25 @@ class ItemEntity(pygame.sprite.Sprite):
             if chip_tile.rotation == 0:
                 if self.chips[chip_tile.chip].portA_saved is None:
                     self.chips[chip_tile.chip].portA_saved = self.number
+                    self.remove_this = True
                 else:
                     return
             elif chip_tile.rotation == 90:
                 if self.chips[chip_tile.chip].portC_saved is None:
                     self.chips[chip_tile.chip].portC_saved = self.number
+                    self.remove_this = True
                 else:
                     return
             elif chip_tile.rotation == 180:
                 if self.chips[chip_tile.chip].portD_saved is None:
                     self.chips[chip_tile.chip].portD_saved = self.number
+                    self.remove_this = True
                 else:
                     return
             elif chip_tile.rotation == 270:
                 if self.chips[chip_tile.chip].portB_saved is None:
                     self.chips[chip_tile.chip].portB_saved = self.number
+                    self.remove_this = True
                 else:
                     return
         next_target_pos = None
@@ -101,3 +107,9 @@ class ItemEntity(pygame.sprite.Sprite):
         self.update_grid_pos()
         self.calculate_target_pos()
         self.move()
+
+    def reset(self):
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = self.initial_grid_pos[0] * TILE_SIZE + 8, self.initial_grid_pos[1] * TILE_SIZE + 8
+        self.update_grid_pos()
+        self.calculate_target_pos()

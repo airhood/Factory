@@ -1,0 +1,30 @@
+[
+{
+    "name": "add",
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) != 0:\n  result = 0\n  for num in nums:\n    result += num\n  return-D result"
+},
+{
+    "name": "subtract",
+    "script": "if b != None:\n  nums = []\n  if a != None: nums.append(b)\n  if c != None: nums.append(c)\n  if len(nums) != 0:\n    result = b\n    for num in nums: result -= num\n    return-D result"
+},
+{
+    "name": "multiply",
+    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif len(nums) != 0:\n  result = 1\n  for num in nums: result *= num\n  return-D result"
+},
+{
+    "name": "divide",
+    "script": ""
+},
+{
+    "name": "minus",
+    "script": "if b != None: return-D -b"
+},
+{
+    "name": "left shift",
+    "script": "if b != None and c != None: return-D b << c"
+},
+{
+    "name": "right shift",
+    "script": "if b != None and a != None: return-D b << a"
+}
+]
