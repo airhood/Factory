@@ -14,6 +14,8 @@ class Chip():
         self.compile_code = None
         self.compile_checker = None
         self.activate = True
+        self.chip_global_var = {}
+        self.tile = None
 
     def set_script(self, script):
         converted_script = self.convert(script)
@@ -63,7 +65,8 @@ class Chip():
                 'c': c,
                 'd': d,
                 'return_checker': False,
-                'count': 0
+                'count': 0,
+                'global_var': self.chip_global_var
             }
             exec(self.compile_checker, {}, local_vars)
             # print(f"return_checker: {local_vars['return_checker']}, count: {local_vars['count']}")

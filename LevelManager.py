@@ -15,3 +15,6 @@ class LevelManager():
         self.gamescene.player.camera_position = pygame.math.Vector2(0, 0)
         self.gamescene.tilemap.load_map(self.levels_data[theme]['levels'][level]['map_file'])
         self.gamescene.items = []
+
+    def get_level_data(self, theme, level):
+        return self.levels_data[theme]['levels'][level]

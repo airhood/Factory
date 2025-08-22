@@ -7,6 +7,7 @@ from Conveyor import ItemEntity
 from config import *
 from LevelManager import LevelManager
 import ChipLoader
+from OutChip import OutChip
 
 TITLESCENE_IDX = 0
 LEVELSELECTSCENE_IDX = 1
@@ -24,7 +25,9 @@ class SceneManager():
         self.scenes = []
     
     def init(self):
-        self.scenes = [TitleScene(self.window, self.load_scene, self.global_var), LevelSelectScene(self.window, self.load_scene, self.global_var), GameScene(self.window, self.load_scene, self.global_var)]
+        self.scenes = [TitleScene(self.window, self.load_scene, self.global_var),
+                       LevelSelectScene(self.window, self.load_scene, self.global_var),
+                       GameScene(self.window, self.load_scene, self.global_var)]
 
     def load_scene(self, scene_id):
         if self.current_scene is not None:
@@ -70,9 +73,6 @@ class TitleScene():
         ]))
 
     def start(self):
-        self.global_var['theme'] = 0
-        self.global_var['level'] = 0
-        self.load_scene(GAMESCENE_IDX)
         pass
 
     def stop(self):
@@ -92,10 +92,53 @@ class LevelSelectScene():
         self.global_var = global_var
 
         #font
-        self.I_AM_A_PLAYER_25 = pygame.font.Font("Fonts/I AM A PLAYER.ttf", 25)
+        self.I_AM_A_PLAYER_30 = pygame.font.Font("Fonts/I AM A PLAYER.ttf", 30)
 
         # UI
         self.ui_elements = []
+        self.ui_elements.append(Button(100, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 0), [
+            Text(34, 33, "1-1", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(250, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 1), [
+            Text(33, 33, "1-2", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(400, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 2), [
+            Text(32, 33, "1-3", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(550, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 3), [
+            Text(32, 33, "1-4", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(700, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 4), [
+            Text(32, 33, "1-5", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(850, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 5), [
+            Text(32, 33, "1-6", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(1000, 100, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(0, 6), [
+            Text(32, 33, "1-7", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+
+        self.ui_elements.append(Button(100, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 0), [
+            Text(32, 33, "2-1", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(250, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 1), [
+            Text(29, 33, "2-2", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(400, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 2), [
+            Text(29, 33, "2-3", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(550, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 3), [
+            Text(29, 33, "2-4", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(700, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 4), [
+            Text(29, 33, "2-5", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(850, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 5), [
+            Text(29, 33, "2-6", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
+        self.ui_elements.append(Button(1000, 250, get_colored_surf([1, 1], (130, 130, 130)), 100, 100, lambda: self.load_level(1, 6), [
+            Text(29, 33, "2-7", self.I_AM_A_PLAYER_30, (255, 255, 255), 400, 250, None)
+        ]))
     
     def start(self):
         pass
@@ -104,9 +147,14 @@ class LevelSelectScene():
         pass
 
     def run(self, dt, events):
-        self.window.blit(get_colored_surf([DISPLAY_W, DISPLAY_H], (208, 252, 92)), (0, 0))
+        self.window.blit(get_colored_surf([DISPLAY_W, DISPLAY_H], (180, 156, 119)), (0, 0))
         for ui_element in self.ui_elements:
             ui_element.draw(self.window, (0, 0))
+
+    def load_level(self, theme, level):
+        self.global_var['theme'] = theme
+        self.global_var['level'] = level
+        self.load_scene(GAMESCENE_IDX)
 
 class GameScene():
     def __init__(self, window, load_scene, global_var):
@@ -125,6 +173,7 @@ class GameScene():
         # fonts
         self.KCC_Ganpan_15 = pygame.font.Font("Fonts/KCC-Ganpan.ttf", 15)
         self.KCC_Ganpan_20 = pygame.font.Font("Fonts/KCC-Ganpan.ttf", 20)
+        self.KCC_Ganpan_80 = pygame.font.Font("Fonts/KCC-Ganpan.ttf", 80)
         self.Consolas = pygame.font.SysFont("Consolas", 14)
 
         # 이미지 로드
@@ -136,6 +185,9 @@ class GameScene():
         # 월드
         self.world = pygame.Surface((10000, 10000))
         self.world.set_colorkey((0, 0, 0))
+
+        # 게임 클리어
+        self.is_game_clear = False
         
         # UI
         self.ui_elements = []
@@ -148,6 +200,7 @@ class GameScene():
                 lambda: Text(27, 0, "STOP", self.KCC_Ganpan_20, (255, 255, 255), 100, 30, None) if self.conveyor_run else Text(21, 0, "START", self.KCC_Ganpan_20, (255, 255, 255), 100, 30, None)
             ])
         ]))
+        self.ui_elements.append(Text(360, 270, lambda: (f"LEVEL CLEAR" if self.is_game_clear else ""), self.KCC_Ganpan_80, (0, 0, 0), 300, 100, None))
 
         # Chip
         self.chip_list = ChipLoader.load_chip("chip.json")
@@ -172,16 +225,34 @@ class GameScene():
         # Item
         self.items = []
 
+        self.item_spawn_tick_t = 0
+
+        self.item_in = None
+        self.item_out = None
+        self.out_chip_list = {}
+
         # Conveyor Items
-        self.items.append(ItemEntity(1, 2, 1, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
-        self.items.append(ItemEntity(1, 4, 1, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
+        # self.items.append(ItemEntity(1, 2, 1, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
+        # self.items.append(ItemEntity(1, 4, 1, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
         self.items_copy = self.copy_items(self.items)
 
         self.conveyor_run = False
     
     def start(self):
-        self.level_manager.load_level(self.global_var['theme'], self.global_var['level'])
+        theme, level = self.global_var['theme'], self.global_var['level']
+        self.level_manager.load_level(theme, level)
         self.reset_items()
+
+        level_data = self.level_manager.get_level_data(theme, level)
+
+        self.item_in = level_data['in']
+        self.item_out = level_data['out']
+        for item in self.item_out:
+            position = item['position']
+            number = item['number']
+            out_chip = OutChip(position[0], position[1], number)
+            self.out_chip_list[f"{position[0]}-{position[1]}"] = out_chip
+        
         self.bgm.play(-1)
     
     def stop(self):
@@ -192,8 +263,29 @@ class GameScene():
             self.conveyor_tick()
 
     def conveyor_tick(self):
+        self.item_spawn_tick_t += 1
+        self.item_spawn_tick_t %= 8
         for item in self.items:
             item.tick()
+        if self.item_spawn_tick_t == 0:
+            self.item_spawn_tick()
+            self.level_clear_check_tick()
+
+    def item_spawn_tick(self):
+        for item in self.item_in:
+            position = item['position']
+            number = item['number']
+            item_entity = ItemEntity(position[0]+1, position[1], number, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list)
+            self.items.append(item_entity)
+
+    def level_clear_check_tick(self):
+        for _, out_chip in self.out_chip_list.items():
+            if out_chip.state != 2:
+                return
+        self.game_clear()
+    
+    def game_clear(self):
+        self.is_game_clear = True
     
     def set_player_holding_block(self, id): # 플레이어가 선택한 블럭 id 저장
         if id == None:
@@ -201,7 +293,7 @@ class GameScene():
             self.player.block_set_image = None
         else:
             self.player.holding_block = id
-            if id == -1: id = 5
+            if id < 0: id = self.chip_list[-id - 1].tile
             # 블럭 설치 미리보기 이미지 업데이트
             self.player.block_set_image = pygame.transform.scale(self.block_spritesheet.parse_sprite(id - 1), (TILE_SIZE, TILE_SIZE))
             self.player.block_set_image.set_alpha(100)
@@ -210,9 +302,13 @@ class GameScene():
         if self.conveyor_run:
             self.reset_items()
         self.conveyor_run = not self.conveyor_run
-
+    
     def reset_items(self):
         self.items = self.copy_items(self.items_copy)
+
+    def reset_out(self):
+        for _, out_chip in self.out_chip_list.items():
+            out_chip.reset()
     
     def run(self, dt, events):
         # key input
@@ -249,6 +345,56 @@ class GameScene():
                 elif event.key == pygame.K_2:
                     self.player.block_set_rotation = 0
                     self.set_player_holding_block(-1)
+                elif event.key == pygame.K_3:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-2)
+                elif event.key == pygame.K_4:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-3)
+                elif event.key == pygame.K_5:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-4)
+                elif event.key == pygame.K_6:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-5)
+                elif event.key == pygame.K_7:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-6)
+                elif event.key == pygame.K_8:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-7)
+                elif event.key == pygame.K_9:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-8)
+                elif event.key == pygame.K_0:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-9)
+                elif event.key == pygame.K_MINUS:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-10)
+                elif event.key == pygame.K_EQUALS:
+                    self.player.block_set_rotation = 0
+                    self.set_player_holding_block(-11)
+                elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                    if event.key == pygame.K_1:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-12)
+                    elif event.key == pygame.K_2:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-13)
+                    elif event.key == pygame.K_3:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-14)
+                    elif event.key == pygame.K_4:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-15)
+                    elif event.key == pygame.K_5:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-16)
+                    elif event.key == pygame.K_6:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-17)
+                
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
                     self.player.LEFT_KEY = False
@@ -274,13 +420,17 @@ class GameScene():
                 chip_x, chip_y = chip_instance.x, chip_instance.y
                 
                 if return_A is not None:
-                    self.items.append(ItemEntity(chip_x, chip_y+1, return_A, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
+                    if self.tilemap.tiles[chip_x][chip_y+1] is not None:
+                        self.items.append(ItemEntity(chip_x, chip_y+1, return_A, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
                 if return_B is not None:
-                    self.items.append(ItemEntity(chip_x-1, chip_y, return_B, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
+                    if self.tilemap.tiles[chip_x-1][chip_y] is not None:
+                        self.items.append(ItemEntity(chip_x-1, chip_y, return_B, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
                 if return_C is not None:
-                    self.items.append(ItemEntity(chip_x, chip_y-1, return_C, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
+                    if self.tilemap.tiles[chip_x][chip_y-1] is not None:
+                        self.items.append(ItemEntity(chip_x, chip_y-1, return_C, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
                 if return_D is not None:
-                    self.items.append(ItemEntity(chip_x+1, chip_y, return_D, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15))
+                    if self.tilemap.tiles[chip_x+1][chip_y] is not None:
+                        self.items.append(ItemEntity(chip_x+1, chip_y, return_D, self.tilemap, self.block_spritesheet, self.number_icon, self.KCC_Ganpan_15, self.out_chip_list))
 
         for item in self.items:
             if item.remove_this == True:
@@ -306,7 +456,7 @@ class GameScene():
         return item_list_copy
 
     def copy_item(self, item):
-        item_copy = ItemEntity(item.x, item.y, item.number, item.tilemap, item.block_spritesheet, item.number_icon, item.font)
+        item_copy = ItemEntity(item.x, item.y, item.number, item.tilemap, item.block_spritesheet, item.number_icon, item.font, item.out_chip_list)
         return item_copy
 
 def get_colored_surf(size, color):

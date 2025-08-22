@@ -24,9 +24,105 @@
 	"rotated": true
 },
 {
-	"name": "chip",
+	"name": "chip_add",
 	"description": "",
 	"image": {"x":64,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_substract",
+	"description": "",
+	"image": {"x":80,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_multiply",
+	"description": "",
+	"image": {"x":96,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_divide",
+	"description": "",
+	"image": {"x":112,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_duplicate",
+	"description": "",
+	"image": {"x":128,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_cross",
+	"description": "",
+	"image": {"x":144,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_minus",
+	"description": "",
+	"image": {"x":160,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_absolute",
+	"description": "",
+	"image": {"x":176,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_compare_equal",
+	"description": "",
+	"image": {"x":192,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_compare_greater",
+	"description": "",
+	"image": {"x":208,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_compare_less",
+	"description": "",
+	"image": {"x":224,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_left_shift",
+	"description": "",
+	"image": {"x":240,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_right_shift",
+	"description": "",
+	"image": {"x":256,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_and_gate",
+	"description": "",
+	"image": {"x":272,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_or_gate",
+	"description": "",
+	"image": {"x":288,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_xor_gate",
+	"description": "",
+	"image": {"x":304,"y":0,"w":16,"h":16},
+	"rotated": true
+},
+{
+	"name": "chip_nor_gate",
+	"description": "",
+	"image": {"x":320,"y":0,"w":16,"h":16},
 	"rotated": true
 }
 ]

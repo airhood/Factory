@@ -11,6 +11,7 @@ def load_chip(filename):
         chip_obj.set_script(chip_data['script'])
         chip_obj.set_checker(chip_data['checker'])
         chip_obj.activate = False
+        chip_obj.tile = chip_data['tile']
         
         chip_list.append(chip_obj)
     

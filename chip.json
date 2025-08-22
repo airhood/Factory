@@ -2,96 +2,103 @@
 {
     "name": "add",
     "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = 0\n  for num in nums:\n    result += num\n  return-D result",
-    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2",
+    "tile": 5
 },
 {
     "name": "subtract",
     "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = nums[0]\n  for i in range(1, len(nums)):\n    result -= nums[i]\n  return-D result",
-    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2",
+    "tile": 6
 },
 {
     "name": "multiply",
     "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = 1\n  for num in nums:\n    result *= num\n  return-D result",
-    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
+    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2",
+    "tile": 7
 },
 {
     "name": "divide",
-    "script": "nums = []\nif a != None: nums.append(a)\nif b != None: nums.append(b)\nif c != None: nums.append(c)\nif d != None: nums.append(d)\nif len(nums) >= 2:\n  result = nums[0]\n  for i in range(1, len(nums)):\n    if nums[i] == 0:\n      break\n    result /= nums[i]\n  else:\n    return-D result",
-    "checker": "count = 0\nif a != None: count += 1\nif b != None: count += 1\nif c != None: count += 1\nif d != None: count += 1\nreturn count >= 2"
-},
-{
-    "name": "constant",
-    "script": "return-A 1\nreturn-B 10\nreturn-C 100\nreturn-D 0",
-    "checker": "return True"
+    "script": "if b != None:\n  if a != None: return-D b / a\n  elif c != None: return-D b/c",
+    "checker": "if b != None: return a != None or c != None",
+    "tile": 8
 },
 {
     "name": "duplicate",
-    "script": "if a != None:\n  return-A a\n  return-B a\n  return-C a\n  return-D a",
-    "checker": "return a != None"
+    "script": "if b != None:\n  return-A b\n  return-C b\n  return-D b",
+    "checker": "return b != None",
+    "tile": 9
 },
 {
-    "name": "pass_through",
-    "script": "if a != None: return-A a\nif b != None: return-B b\nif c != None: return-C c\nif d != None: return-D d",
-    "checker": "return a != None or b != None or c != None or d != None"
-},
-{
-    "name": "swap_ab",
-    "script": "if a != None: return-B a\nif b != None: return-A b\nif c != None: return-C c\nif d != None: return-D d",
-    "checker": "return a != None or b != None or c != None or d != None"
+    "name": "cross",
+    "script": "return-C a if a != None else c\nreturn-D b\n",
+    "checker": "if b == None: return False\nif a != None or c != None: return True",
+    "tile": 10
 },
 {
     "name": "minus",
-    "script": "if a != None: return-A -a\nif b != None: return-B -b\nif c != None: return-C -c\nif d != None: return-D -d",
-    "checker": "return a != None or b != None or c != None or d != None"
+    "script": "return-D -b",
+    "checker": "return b != None",
+    "tile": 11
 },
 {
     "name": "absolute",
-    "script": "if a != None: return-A abs(a)\nif b != None: return-B abs(b)\nif c != None: return-C abs(c)\nif d != None: return-D abs(d)",
-    "checker": "return a != None or b != None or c != None or d != None"
+    "script": "if a != None: return-A abs(a)",
+    "checker": "return a != None",
+    "tile": 12
 },
 {
     "name": "compare_equal",
-    "script": "if a != None and b != None:\n  result = 1 if a == b else 0\n  return-D result",
-    "checker": "return a != None and b != None"
+    "script": "if a != None and c != None:\n  result = 1 if a == b else 0\n  return-D result",
+    "checker": "return a != None and c != None",
+    "tile": 13
 },
 {
     "name": "compare_greater",
-    "script": "if a != None and b != None:\n  result = 1 if a > b else 0\n  return-D result",
-    "checker": "return a != None and b != None"
+    "script": "if a != None and c != None:\n  result = 1 if a > c else 0\n  return-D result",
+    "checker": "return a != None and c != None",
+    "tile": 14
 },
 {
     "name": "compare_less",
-    "script": "if a != None and b != None:\n  result = 1 if a < b else 0\n  return-D result",
-    "checker": "return a != None and b != None"
+    "script": "if a != None and c != None:\n  result = 1 if a < c else 0\n  return-D result",
+    "checker": "return a != None and c != None",
+    "tile": 15
 },
 {
     "name": "left_shift",
     "script": "if a != None and b != None: return-D a << b",
-    "checker": "return a != None and b != None"
+    "checker": "return a != None and b != None",
+    "tile": 16
 },
 {
     "name": "right_shift",
     "script": "if a != None and b != None: return-D a >> b",
-    "checker": "return a != None and b != None"
+    "checker": "return a != None and b != None",
+    "tile": 17
 },
 {
     "name": "and_gate",
     "script": "if a != None and b != None: return-D a & b",
-    "checker": "return a != None and b != None"
+    "checker": "return a != None and b != None",
+    "tile": 18
 },
 {
     "name": "or_gate",
     "script": "if a != None and b != None: return-D a | b",
-    "checker": "return a != None and b != None"
+    "checker": "return a != None and b != None",
+    "tile": 19
 },
 {
     "name": "xor_gate",
     "script": "if a != None and b != None: return-D a ^ b",
-    "checker": "return a != None and b != None"
+    "checker": "return a != None and b != None",
+    "tile": 20
 },
 {
     "name": "not_gate",
     "script": "if a != None: return-A ~a\nif b != None: return-B ~b\nif c != None: return-C ~c\nif d != None: return-D ~d",
-    "checker": "return a != None or b != None or c != None or d != None"
+    "checker": "return a != None or b != None or c != None or d != None",
+    "tile": 21
 }
 ]

@@ -3,7 +3,7 @@ from config import *
 import math
 
 class ItemEntity(pygame.sprite.Sprite):
-    def __init__(self, x, y, number, tilemap, block_spritesheet, number_icon, font):
+    def __init__(self, x, y, number, tilemap, block_spritesheet, number_icon, font, out_chip_list):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
@@ -21,6 +21,7 @@ class ItemEntity(pygame.sprite.Sprite):
         self.font = font
         self.remove_this = False
         self.stop_move = False
+        self.out_chip_list = out_chip_list
     
     def calculate_target_pos(self): # 다음 아이템 이동 목표 좌표 계산
         if self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]] is None:
@@ -32,7 +33,7 @@ class ItemEntity(pygame.sprite.Sprite):
         if self.target_grid_pos is not None:
             if (self.rect.x + 16) != (self.target_grid_pos[0] * TILE_SIZE + 24) or (self.rect.y + 16) != (self.target_grid_pos[1] * TILE_SIZE + 24):
                 return
-        if self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]].id == 5:
+        if self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]].id >= 5:
             chip_tile = self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]]
             rotation_chip = chip_tile.rotation + self.moving_dir * 90
 
@@ -77,7 +78,13 @@ class ItemEntity(pygame.sprite.Sprite):
             #     else:
             #         self.stop_move = True
             #         return
-                                    
+        elif self.tilemap.tiles[self.current_grid_pos[0]][self.current_grid_pos[1]].id == 4:
+            if f"{self.current_grid_pos[0]}-{self.current_grid_pos[1]}" in self.out_chip_list:
+                self.out_chip_list[f"{self.current_grid_pos[0]}-{self.current_grid_pos[1]}"].go(self.number)
+                self.remove_this = True
+            else:
+                print("out_chip find error: target out_chip not existing!")
+
         next_target_pos = None
         if rotation == 0: # up
             self.moving_dir = 0
@@ -93,7 +100,7 @@ class ItemEntity(pygame.sprite.Sprite):
             next_target_pos = (x -1, y)
         next_target_pos_tile = self.tilemap.tiles[next_target_pos[0]][next_target_pos[1]]
         if next_target_pos_tile is not None:
-            if next_target_pos_tile.id == 1 or next_target_pos_tile.id == 5:
+            if next_target_pos_tile.id == 1 or next_target_pos_tile.id == 4 or next_target_pos_tile.id >= 5:
                 self.target_grid_pos = next_target_pos
             elif self.block_spritesheet.parse_sprite(next_target_pos_tile.id - 1):
                 pass

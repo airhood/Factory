@@ -7,7 +7,23 @@
         "name": "컨베이어 벨트",
         "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
         "difficulty": 0,
-        "map_file": "1.csv"
+        "map_file": "1.csv",
+        "in": [
+            {
+                "position": [1, 2],
+                "number": 1
+            },
+            {
+                "position": [1, 4],
+                "number": 1
+            }
+        ],
+        "out": [
+            {
+                "position": [35, 2],
+                "number": 2
+            }
+        ]
     }
 ]
 }

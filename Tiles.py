@@ -54,10 +54,10 @@ class TileMap():
         if isChip:
             if id.find('-') != -1:
                 split = id.split('-')
-                self.tiles[x][y] = (Tile(5, x * self.tile_size, y * self.tile_size, int(split[1]) * 90, self.block_spritesheet))
+                self.tiles[x][y] = (Tile(int(split[0]), x * self.tile_size, y * self.tile_size, int(split[1]) * 90, self.block_spritesheet))
                 self.tiles[x][y].chip = chip # chip
             else:
-                self.tiles[x][y] = (Tile(5, x * self.tile_size, y * self.tile_size, 0, self.block_spritesheet))
+                self.tiles[x][y] = (Tile(int(id), x * self.tile_size, y * self.tile_size, 0, self.block_spritesheet))
                 self.tiles[x][y].chip = chip # chip
 
             if not self.isLoading:
@@ -78,14 +78,17 @@ class TileMap():
         
         return True
     
-    def set_chip(self, x, y, chip_id, rotation):
+    def set_chip(self, x, y, chip_id, rotation=0):
         if chip_id < len(self.chip_list):
             chip = copy.deepcopy(self.chip_list[chip_id])
             chip.x = x
             chip.y = y
             chip.activate = True
             self.chip_instances.append(chip)
-            result = self.set_tile(x, y, '5-'+str(rotation), chip=chip, isChip=True)
+            if rotation == 0:
+                result = self.set_tile(x, y, str(self.chip_list[chip_id].tile), chip=chip, isChip=True)
+            else:
+                result = self.set_tile(x, y, f'{self.chip_list[chip_id].tile}-{rotation}', chip=chip, isChip=True)
             return result
         return False
 
