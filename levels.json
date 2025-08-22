@@ -72,7 +72,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "511",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -86,7 +86,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "1024",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -106,7 +106,7 @@
     "levels": [
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "225",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -120,7 +120,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "4096",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -135,7 +135,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "1001",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -151,7 +151,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "127",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -166,7 +166,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "59049",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -180,7 +180,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "8128",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
@@ -194,7 +194,7 @@
       },
       {
         "name": "컨베이어 벨트",
-        "description": "컨베이어 벨트를 이어서 숫자를 옮기세요",
+        "description": "987",
         "difficulty": 2,
         "map_file": "1-1.csv",
         "in": [
