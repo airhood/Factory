@@ -192,6 +192,8 @@ class GameScene():
         # UI
         self.ui_elements = []
 
+        self.description = ""
+
         self.ui_elements.append(Panel(0, 630, get_colored_surf([1, 1], (130, 130, 130)), 1200, 70, [
             Button(15, 15, self.block_spritesheet.parse_sprite(1-1), 40, 40, lambda: self.set_player_holding_block(1), None),
             *[Button(15 + 60 * i, 15, self.block_spritesheet.parse_sprite((5+i-1)-1), 40, 40, lambda x=i: self.set_player_holding_block(-x), None) for i in range(1, 19)]
@@ -202,6 +204,7 @@ class GameScene():
             ])
         ]))
         self.ui_elements.append(Text(360, 270, lambda: (f"LEVEL CLEAR" if self.is_game_clear else ""), self.KCC_Ganpan_80, (0, 0, 0), 300, 100, None))
+        self.ui_elements.append(Text(100, 50, lambda: self.description, self.KCC_Ganpan_20, (0, 0, 0), 300, 100, None))
 
         # Chip
         self.chip_list = ChipLoader.load_chip("chip.json")
@@ -253,6 +256,7 @@ class GameScene():
 
         self.item_in = level_data['in']
         self.item_out = level_data['out']
+        self.description = level_data['description']
         for item in self.item_out:
             position = item['position']
             number = item['number']
