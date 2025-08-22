@@ -68,9 +68,9 @@ class TitleScene():
         self.ui_elements.append(Button(870, 570, self.button_image, self.button_image.get_rect().width * 0.15, self.button_image.get_rect().height * 0.15, lambda: load_scene(LEVELSELECTSCENE_IDX), [
             Text(70, 13, "START", self.I_AM_A_PLAYER_35, (255, 255, 255), 400, 250, None)
         ]))
-        self.ui_elements.append(Button(50, 30, get_colored_surf([1, 1], (130, 130, 130)), self.button_image.get_rect().width * 0.11, self.button_image.get_rect().height * 0.11, lambda: load_scene(2), [
-            Text(30, 9, "Settings", self.I_AM_A_PLAYER_25, (255, 255, 255), 400, 250, None)
-        ]))
+        # self.ui_elements.append(Button(50, 30, get_colored_surf([1, 1], (130, 130, 130)), self.button_image.get_rect().width * 0.11, self.button_image.get_rect().height * 0.11, lambda: load_scene(2), [
+        #     Text(30, 9, "Settings", self.I_AM_A_PLAYER_25, (255, 255, 255), 400, 250, None)
+        # ]))
 
     def start(self):
         pass
