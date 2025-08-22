@@ -193,7 +193,8 @@ class GameScene():
         self.ui_elements = []
 
         self.ui_elements.append(Panel(0, 630, get_colored_surf([1, 1], (130, 130, 130)), 1200, 70, [
-            Button(15, 15, self.block_spritesheet.parse_sprite(1-1), 40, 40, lambda: self.set_player_holding_block(1), None)
+            Button(15, 15, self.block_spritesheet.parse_sprite(1-1), 40, 40, lambda: self.set_player_holding_block(1), None),
+            *[Button(15 + 60 * i, 15, self.block_spritesheet.parse_sprite((5+i-1)-1), 40, 40, lambda x=i: self.set_player_holding_block(-x), None) for i in range(1, 19)]
         ]))
         self.ui_elements.append(Panel(0, 0, get_colored_surf([1, 1], (170, 170, 170)), 1200, 40, [
             Button(1095, 5, lambda: get_colored_surf([1, 1], (255, 99, 100)) if self.conveyor_run else get_colored_surf([1, 1], (60, 179, 113)), 100, 30, lambda: self.toggle_conveyor(), [
@@ -237,8 +238,13 @@ class GameScene():
         self.items_copy = self.copy_items(self.items)
 
         self.conveyor_run = False
+
+        self.shift = False
     
     def start(self):
+        self.is_game_clear = False
+        self.conveyor_run = False
+
         theme, level = self.global_var['theme'], self.global_var['level']
         self.level_manager.load_level(theme, level)
         self.reset_items()
@@ -311,10 +317,39 @@ class GameScene():
             out_chip.reset()
     
     def run(self, dt, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                    self.shift = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                    self.shift = False
+        
         # key input
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
+                if self.shift:
+                    if event.key == pygame.K_1:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-12)
+                    elif event.key == pygame.K_2:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-13)
+                    elif event.key == pygame.K_3:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-14)
+                    elif event.key == pygame.K_4:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-15)
+                    elif event.key == pygame.K_5:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-16)
+                    elif event.key == pygame.K_6:
+                        self.player.block_set_rotation = 0
+                        self.set_player_holding_block(-17)
+                elif event.key == pygame.K_SPACE and self.is_game_clear:
+                    self.load_scene(LEVELSELECTSCENE_IDX)
+                elif event.key == pygame.K_a:
                     self.player.LEFT_KEY = True
                 elif event.key == pygame.K_d:
                     self.player.RIGHT_KEY = True
@@ -375,25 +410,6 @@ class GameScene():
                 elif event.key == pygame.K_EQUALS:
                     self.player.block_set_rotation = 0
                     self.set_player_holding_block(-11)
-                elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                    if event.key == pygame.K_1:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-12)
-                    elif event.key == pygame.K_2:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-13)
-                    elif event.key == pygame.K_3:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-14)
-                    elif event.key == pygame.K_4:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-15)
-                    elif event.key == pygame.K_5:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-16)
-                    elif event.key == pygame.K_6:
-                        self.player.block_set_rotation = 0
-                        self.set_player_holding_block(-17)
                 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
